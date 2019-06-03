@@ -1,2 +1,3 @@
-# gas-prices
-Slim + MySQL Database(Sepomex Postal Codes &amp; Gas Prices API) + Angular
+# gas-prices-front
+
+> Sepomex Postal Codes &amp; Gas Prices API with Angular
