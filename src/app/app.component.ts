@@ -56,6 +56,7 @@ export class AppComponent implements OnInit {
     // Clear the selection
     this.selectedMunicipality.zip = '0';
     this.markers = [];
+    this.zoom = 5;
     // Get the municipalities
     this.backendApiService.getMunicipalities(stateId)
       .subscribe((data: any) => {
@@ -67,11 +68,8 @@ export class AppComponent implements OnInit {
   onMunicipalitySelect(event) {
     // Clear the selection
     this.markers = [];
-    console.log('event:', event);
-    let selectEl = event.target;
-    console.log('selectEl:', selectEl);
+    const selectEl = event.target;
     const id = selectEl.options[selectEl.selectedIndex].dataset.id;
-    console.log('id:', id);
     // Find the selected municipality
     this.selectedMunicipality = this.municipalities.find(i => i.id === id);
     console.log('selectedMunicipality:', this.selectedMunicipality);
@@ -80,17 +78,22 @@ export class AppComponent implements OnInit {
       console.log(typeof this.gasPrices);
       this.selectedGP = this.gasPrices.filter(i => i.codigopostal === this.selectedMunicipality.zip);
       if (typeof this.selectedGP === 'undefined' || this.selectedGP.length === 0) {
-        alert('No se ha encontrado gasolinería');
+        alert('No se ha encontrado registros');
       } else {
         console.log('selectedGP:', this.selectedGP);
         this.selectedGP.forEach((value) => {
           console.log(value);
           const label = `${value.razonsocial}: ${value.regular}/${value.premium}`;
-          this.markers.push(new Marker(value.latitude, value.longitude, ));
+          this.markers.push(new Marker(value.latitude, value.longitude, label));
         });
+        if (this.markers.length > 0) {
+          this.lat = parseFloat(this.markers[0].lat);
+          this.lng = parseFloat(this.markers[0].lng);
+        }
+        this.zoom = 8;
       }
     } else {
-      alert('El catálogo de precios aún no carga');
+      alert('El catálogo de precios aún no carga, espere un momento');
     }
   }
 

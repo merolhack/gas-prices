@@ -44,4 +44,33 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div *ngIf="selectedMunicipality.id != '0'" class="col-sm-12 col-md-12">
+            <h4>Listado de gasolineras</h4>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">C.P.</th>
+                        <th scope="col">Razón Social</th>
+                        <th scope="col">Regular</th>
+                        <th scope="col">Premium</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let garPrice of selectedGP">
+                        <th scope="row">{{garPrice.codigopostal}}</th>
+                        <td>{{garPrice.razonsocial}}</td>
+                        <td>{{garPrice.regular}}</td>
+                        <td>{{garPrice.premium}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer class="bg-black small text-center text-black-50">
+        <div class="container">
+            <p>Made by <a href="https://github.com/merolhack/gas-prices-front" target="_blank">Lenin Meza</a> with
+                Angular + Bootstrap + Google Maps</p>
+        </div>
+    </footer>
 </div>
