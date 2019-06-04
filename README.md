@@ -1,4 +1,7 @@
-# GasPricesFront
+# gas-prices-front
+
+> Sepomex Postal Codes &amp; Gas Prices API with Angular
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
 
