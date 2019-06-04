@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import { retry, catchError, map } from 'rxjs/operators';
 
 // Import the models
-import { State, Municipality } from '../models';
+import { State, Municipality, GasPrice } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -14,24 +14,24 @@ export class BackendApiService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getStates(): Observable<State> {
-    return this.httpClient.get<State>(`${this.apiHost}/states`)
+  getStates(): Observable<State[]> {
+    return this.httpClient.get<State[]>(`${this.apiHost}/states`)
       .pipe(
         retry(5),
         catchError(this.handleError)
       );
   }
 
-  getMunicipalities(stateId = '01') {
-    return this.httpClient.get(`${this.apiHost}/municipalities/${stateId}`)
+  getMunicipalities(stateId = '01'): Observable<Municipality[]> {
+    return this.httpClient.get<Municipality[]>(`${this.apiHost}/municipalities/${stateId}`)
       .pipe(
         retry(5),
         catchError(this.handleError)
       );
   }
 
-  getGasPrices() {
-    return this.httpClient.get(`${this.apiHost}/gas-prices`)
+  getGasPrices(): Observable<GasPrice[]> {
+    return this.httpClient.get<GasPrice[]>(`${this.apiHost}/gas-prices`)
       .pipe(
         retry(5),
         catchError(this.handleError)

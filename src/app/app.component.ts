@@ -13,12 +13,14 @@ import { BackendApiService } from './services/backend-api.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  // Declare catalogs
+  states: State[] = [];
+  municipalities: Municipality[] = [];
+  gasPrices: GasPrice[] = [];
+
   selectedState: State = new State('0', 'Seleccione un estado');
-  states: Observable<State>;
   selectedMunicipality: Municipality = new Municipality('0', 'Seleccione un municipio', '');
-  municipalities: Observable<Municipality>;
-  gasPrices: Observable<GasPrice>;
-  selectedGP: GasPrice;
+  selectedGP: GasPrice[] = [];
 
   //// Set the map settings
   // google maps zoom level
@@ -34,19 +36,19 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     // Fetch the Gas prices
     this.backendApiService.getGasPrices()
-      .subscribe((data: Observable<any>) => {
+      .subscribe((data: any) => {
         console.log('getGasPrices:', data);
         if (data.results) {
-          this.gasPrices = data.results;
-        } else {
-          this.gasPrices = data;
+          data.results.forEach((price: any) => {
+            this.gasPrices.push(new GasPrice(price));
+          });
         }
       });
     // Fetch the states
     this.backendApiService.getStates()
-      .subscribe((data: Observable<State>) => {
+      .subscribe((data: any) => {
         console.log('getStates:', data);
-        this.states = data;
+        this.states = data as State[];
       });
   }
 
@@ -56,9 +58,9 @@ export class AppComponent implements OnInit {
     this.markers = [];
     // Get the municipalities
     this.backendApiService.getMunicipalities(stateId)
-      .subscribe((data: Observable<Municipality>) => {
+      .subscribe((data: any) => {
         console.log('getMunicipalities:', data);
-        this.municipalities = data;
+        this.municipalities = data as Municipality[];
       });
   }
 
@@ -75,6 +77,7 @@ export class AppComponent implements OnInit {
     console.log('selectedMunicipality:', this.selectedMunicipality);
     // Find the ZIP code into the list of gas prices
     if (typeof this.gasPrices !== 'undefined') {
+      console.log(typeof this.gasPrices);
       this.selectedGP = this.gasPrices.filter(i => i.codigopostal === this.selectedMunicipality.zip);
       if (typeof this.selectedGP === 'undefined' || this.selectedGP.length === 0) {
         alert('No se ha encontrado gasolinería');

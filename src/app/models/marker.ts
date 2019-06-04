@@ -1,4 +1,4 @@
 // just an interface for type safety.
 export class Marker {
-    constructor(public lat: number, public lng: number, public label?: string, public draggable: boolean = false) {}
+    constructor(public lat: string, public lng: string, public label?: string, public draggable: boolean = false) {}
 }
