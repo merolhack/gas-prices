@@ -2,6 +2,11 @@
 
 > Sepomex Postal Codes &amp; Gas Prices API with Angular
 
+```bash
+ng new gas-prices-front --style=scss
+npm install --save bootstrap @types/googlemaps @agm/core
+ng g s services/backendApi --module=app.module
+```
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
 

@@ -1,20 +1,47 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <h2>Búsqueda de gasolineras</h2>
+            <form>
+                <fieldset>
+                    <legend>Seleccione un estado y municipio para ver las gasolineras que hay en él:</legend>
+                    <div class="form-group">
+                        <label for="states">Estados:</label>
+                        <select [(ngModel)]="selectedState.id" (change)="onStateSelect($event.target.value)"
+                            name="states" class="form-control">
+                            <option value="0">-- Seleccione un estado</option>
+                            <option *ngFor="let state of states" value={{state.id}}>{{state.name}}</option>
+                        </select>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="municipalities">Municipios:</label>
+                        <select [(ngModel)]="selectedMunicipality.zip" (change)="onMunicipalitySelect($event)"
+                            name="municipalities" class="form-control">
+                            <option value="0">-- Seleccione un municipio</option>
+                            <option *ngFor="let municipaly of municipalities " value={{municipaly.zip}}
+                                [attr.data-id]="municipaly.id">
+                                {{municipaly.name}}</option>
+                        </select>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div *ngIf="selectedMunicipality.id != '0'" class="col-sm-12 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+                        <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m.label, i)"
+                            [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [markerDraggable]="m.draggable">
+                            <agm-info-window>
+                                <strong>{{m.label}}</strong>
+                            </agm-info-window>
+                        </agm-marker>
+                    </agm-map>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
